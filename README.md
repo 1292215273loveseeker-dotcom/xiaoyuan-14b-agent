@@ -85,9 +85,11 @@ The honest limits are part of the project:
 - [`agent-card.json`](agent-card.json) — A2A-style agent card for discovery.
 - [`llms.txt`](llms.txt) — compact machine-readable project summary.
 - [`openapi.json`](openapi.json) — a small, honest API description for the public demo surface.
-- [`web/index.html`](web/index.html) — human-readable project page, suitable for GitHub Pages.
+- [`index.html`](index.html) — human-readable project page, suitable for GitHub Pages.
+- [`agent/index.html`](agent/index.html) — browser-native portable agent demo with `agent-manifest.json`, `xiaoyuan_14b.network.json`, and `runtime.js`.
+- [`agent/demo.html`](agent/demo.html) — captioned demo walkthrough video (no synthetic voice).
 
-The public demo surface is intentionally **read-only**: it exposes project metadata and a deterministic sample interaction, not a live 14B endpoint. A live endpoint requires a host with enough RAM and a stable public address; that is a separate deployment step, not something this repository pretends to have.
+The public demo surface is intentionally **read-only** for model inference: it exposes project metadata and a deterministic local agent path, not a live 14B endpoint. A visitor may optionally enter an OpenAI-compatible BYOK router in the browser. A live hosted 14B endpoint requires a host with enough RAM and a stable public address; that is a separate deployment step, not something this repository pretends to have.
 
 ## Competition status
 
