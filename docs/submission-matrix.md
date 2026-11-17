@@ -8,7 +8,7 @@
 | 结论 | 赛事/榜单 | 处理 |
 |---|---|---|
 | 最适合、当前可报名 | **Create AI Agents Championship（迪拜）** | 全球开放、免费、个人/团队≤6、接受 idea/prototype/early MVP；注册截止 2027-01；已准备英文报名材料，但报名表强制要求真实年龄/性别/邮箱/电话，不能编造 |
-| 最适合公开上架、已有公开入口 | **Open Agentic Web Challenge** | 2026-11-12 至 2027-01-11，Devpost；已建公开 GitHub 仓库、项目页、浏览器 Agent 站点和 captioned demo；已注册 Devpost，项目草稿已建，待补本人讲解视频后提交 |
+| 已提交（当前唯一正式回执） | **Open Agentic Web Challenge** | 2026-11-12 至 2027-01-11，Devpost；已建公开 GitHub 仓库、项目页、浏览器 Agent 站点和 captioned demo；2026-11-18 已正式提交，Devpost 状态 **SUBMITTED**，项目页已嵌入 YouTube 视频 |
 | 仍有时间但需改基座 | **Kaggle Gemma 4 Developer Agent** | 2026-12-02 最终提交；必须用 Gemma 4 指定基座，当前 Qwen2.5 版不兼容，需另建 Gemma 4 分支 |
 | 仍需“新工作” | **Neo4j Relate Hackathon** | 2026-12-11；必须用 Relate 图数据库新建 Agent/应用，现有小袁不能原样提交 |
 | 只能登记/备赛 | **HackerRank Orchestrate** | 2026-12-12 24 小时个人赛；不是提前交现有项目，需当天现场构建 |
@@ -46,13 +46,13 @@
 
 ### 2.2 Open Agentic Web Challenge
 
-- 官方：<https://worldwideagenticweb.org/>
-- 运行：Devpost，2026-11-12 至 **2027-01-11**；奖金 $13,000。
+- 官方：<https://cognizant-agenticweb.devpost.com/>
+- 运行：Devpost，2026-11-12 至 **2027-01-11 16:00 UTC**（北京时间 2027-01-12 00:00）；页面显示 $10,000 in cash。
 - 两条 track：agentifying existing websites；building technology components。
 - 要求：公开可访问、可互操作的 agentic website；个人/团队均可；需符合 specs。
 - 小袁定位：把项目页做成可被 agent 发现的公开站点（agent-card.json、llms.txt、openapi.json），并提交“agentifying a project site”方向。
-- 当前状态：公开 GitHub 仓库、项目页、浏览器 Agent 站点（manifest + network + runtime）和 captioned demo 已建；Devpost 已注册，项目草稿已建，项目详情/附加信息已填，待补赛事要求的本人讲解视频后提交。
-- 结论：已完成公开上架与报名，剩余唯一硬门槛是“本人讲解、非 AI 生成”的 YouTube/Vimeo 视频。
+- 当前状态：**2026-11-18 已正式提交**。Devpost 项目 ID `1309636`，管理页显示 **SUBMITTED**；项目页 <https://devpost.com/software/xiaoyuan-14b> 已公开，并已嵌入 YouTube 视频 `https://youtu.be/daMritEL120`。提交回执见 `submission/open-agentic-web-submission-receipt.md`。
+- 结论：赛事流程已完成。唯一需要说明的合规缺口：视频是 captioned screen walkthrough，无合成语音、无真人出声讲解；已在视频说明与本地回执中明确披露，未冒充真人配音。赛事仍允许在截止前继续编辑项目。
 
 ### 2.3 Kaggle Gemma 4 Developer Agent Competition
 
@@ -122,7 +122,7 @@
 | 建公开项目页（GitHub Pages） | 已完成 | <https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/> |
 | 建公开浏览器 Agent 站点 + captioned demo | 已完成 | <https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/agent/>；<https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/agent/demo.html> |
 | 迪拜报名 | 材料已备，未提交 | 报名表要求真实个人信息；不能编造 |
-| Open Agentic Web Challenge | 已注册；项目草稿已建；未提交 | Devpost 项目 1309636；待补本人讲解视频 |
+| Open Agentic Web Challenge | **已提交** | Devpost 项目 1309636；状态 SUBMITTED；项目页已嵌入 YouTube 视频；回执 `submission/open-agentic-web-submission-receipt.md` |
 | Kaggle Gemma 4 | 不适配当前基座 | 需 Gemma 4 分支 |
 | Neo4j Relate | 不适配现有项目 | 需 Relate 新项目 |
 | HackerRank Orchestrate | 未登记 | 需 HackerRank 账号；12-12 当天参赛 |
