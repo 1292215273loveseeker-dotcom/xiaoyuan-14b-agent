@@ -1,0 +1,36 @@
+{
+  "name": "Xiaoyuan 14B",
+  "description": "A local-first, safety-gated agent network around a quantized 14B open-weight model. Published as a portable, data-only agent network for the Open Agentic Web Challenge.",
+  "version": "1.0.0",
+  "networks": [
+    {
+      "name": "xiaoyuan_14b",
+      "front_man": "xiaoyuan_front",
+      "hocon": "./xiaoyuan_14b.network.json",
+      "description": "Safety-gated local agent with a deterministic front door, a safety gate, and a grounded project-facts action."
+    }
+  ],
+  "llm": {
+    "default": {
+      "router": "deterministic-local-demo",
+      "model": "xiaoyuan-demo",
+      "note": "The public demo answers from a deterministic local policy so it runs without a key. No model inference is claimed for this path."
+    },
+    "byok": {
+      "supported": true,
+      "wire_protocol": "openai-compatible",
+      "note": "A visitor may enter their own OpenAI-compatible router base URL, model, and key. The key stays in browser-local storage and is sent only to that router."
+    }
+  },
+  "peer_policy": {
+    "allowed_origins": []
+  },
+  "x-site-actions": [
+    {
+      "name": "get_project_facts",
+      "description": "Returns grounded facts about the Xiaoyuan 14B project, including what it is, what it is not, and its local evidence boundaries.",
+      "effect": "read",
+      "availability": "local-only"
+    }
+  ]
+}
