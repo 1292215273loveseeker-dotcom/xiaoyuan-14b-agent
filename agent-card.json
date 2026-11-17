@@ -1,0 +1,76 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Xiaoyuan 14B",
+  "description": "A local-first, safety-gated agent architecture built around a quantized 14B open-weight model. Deterministic scenario routing, high-confidence safety gates, task constraint blocks, and output post-checks make a small local model more reliable in high-stakes tasks.",
+  "url": "https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/",
+  "preferredTransport": "HTTP+JSON",
+  "version": "1.0.0",
+  "provider": {
+    "organization": "Xiaoyuan AGI",
+    "url": "https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent"
+  },
+  "documentationUrl": "https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": true
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "scenario-routing",
+      "name": "Scenario routing",
+      "description": "Routes user input to crisis, health, safety, tool, decision, multi-domain, self-review, or general handling before any model call.",
+      "tags": ["routing", "safety", "local-first"],
+      "examples": [
+        "A user reports a medical emergency while asking for documentation help.",
+        "A meeting request contains a request for an unsafe invoice workaround.",
+        "A multi-turn conversation contains a hard constraint from an earlier turn."
+      ]
+    },
+    {
+      "id": "deterministic-safety-gates",
+      "name": "Deterministic safety gates",
+      "description": "Short-circuits high-confidence unsafe or crisis cases without a model call, then appends a lawful alternative or emergency-first action.",
+      "tags": ["safety", "deterministic", "guardrail"],
+      "examples": [
+        "Refuse a request for a fraudulent invoice scheme and offer a compliant alternative.",
+        "Put emergency services first when a crisis signal is present."
+      ]
+    },
+    {
+      "id": "task-constraint-blocks",
+      "name": "Task constraint blocks",
+      "description": "Injects compact, task-specific rules for edge planning, tool contracts, multi-agent roles, decision support, health boundaries, and structured output.",
+      "tags": ["prompting", "constraints", "structured-output"],
+      "examples": [
+        "Return only valid JSON for a scheduling task.",
+        "Keep a health answer within a 150-character boundary and avoid diagnosis."
+      ]
+    },
+    {
+      "id": "output-post-check",
+      "name": "Output post-check and repair",
+      "description": "Checks the final answer for required fields, unsafe framing, format drift, and prompt echo; repairs before display.",
+      "tags": ["verification", "repair", "reliability"],
+      "examples": [
+        "Replace a missing emergency-first sentence.",
+        "Remove a prompt echo from a self-review answer."
+      ]
+    }
+  ],
+  "x-live-endpoint": false,
+  "x-live-endpoint-note": "This public card is a discovery document for a locally hosted agent. A public inference endpoint is not claimed; see the project README for the honest deployment boundary.",
+  "x-evidence": {
+    "local_tasks": "10/10 tasks, 31/31 turns",
+    "local_strict_score": "89/100",
+    "automated_regression": "45/45 tests OK",
+    "official_score": null
+  }
+}

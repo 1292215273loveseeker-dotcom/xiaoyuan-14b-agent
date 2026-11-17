@@ -1,0 +1,35 @@
+# Xiaoyuan 14B — llms.txt
+
+> A local-first, safety-gated agent architecture built around a quantized 14B open-weight model.
+
+## Canonical
+
+- Project home: https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent
+- Public page: https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/
+- Agent card: https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/agent-card.json
+- Architecture: https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/architecture.md
+- Evidence: https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/evidence.md
+- Submission matrix: https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/submission-matrix.md
+
+## What it is
+
+Xiaoyuan 14B is an agent system, not a new foundation model. It wraps Qwen2.5 14B Instruct (Q4_K_M, served by Ollama) with four deterministic layers: scenario routing, high-confidence safety gates, task constraint blocks, and output post-check/repair. It is designed for local, resource-constrained deployment.
+
+## What it is not
+
+- Not a new base model or a claim of a new model architecture.
+- Not an official leaderboard entry or a competition winner.
+- Not a public always-on inference service in this repository.
+- Not a substitute for a human emergency responder, clinician, lawyer, or financial adviser.
+
+## Evidence (local, not official)
+
+- 10/10 local tasks, 31/31 turns completed.
+- 89/100 local strict self-score.
+- 45/45 automated regression tests OK.
+- ~9 GB runtime, ~4.9 tokens/s, 4k working context.
+
+## Contact
+
+Use the GitHub repository issues for project-level questions:
+https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/issues

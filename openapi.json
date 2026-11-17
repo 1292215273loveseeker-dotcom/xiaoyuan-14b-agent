@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Xiaoyuan 14B public metadata surface",
+    "version": "1.0.0",
+    "description": "Read-only public metadata for the Xiaoyuan 14B project. This is not a live inference API; it exposes discovery documents only."
+  },
+  "servers": [
+    {
+      "url": "https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent"
+    }
+  ],
+  "paths": {
+    "/agent-card.json": {
+      "get": {
+        "operationId": "getAgentCard",
+        "summary": "Return the A2A-style agent card",
+        "responses": {
+          "200": {
+            "description": "Agent card",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsTxt",
+        "summary": "Return the machine-readable project summary",
+        "responses": {
+          "200": {
+            "description": "Project summary",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

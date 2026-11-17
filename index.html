@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xiaoyuan 14B — Local-First Safety-Gated Agent</title>
+<meta name="description" content="Xiaoyuan 14B is a local-first, safety-gated agent architecture built around a quantized 14B open-weight model. Deterministic routing, gates, constraint blocks, and output repair.">
+<meta property="og:title" content="Xiaoyuan 14B — Local-First Safety-Gated Agent">
+<meta property="og:description" content="A 14B agent that shows its gates: deterministic safety routing before the model, output repair after it.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/">
+<meta property="og:image" content="https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/og.svg">
+<link rel="agent" href="agent-card.json">
+<link rel="alternate" type="application/json" href="agent-card.json" title="A2A agent card">
+<link rel="alternate" type="text/plain" href="llms.txt" title="Machine-readable summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M16 44V20h8l12 16V20h8v24h-8L24 28v16z' fill='%235eead4'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#0b1220; --paper:#f4f1ea; --paper-2:#e9e5db; --line:#c9c2b4;
+  --teal:#0f766e; --teal-2:#5eead4; --amber:#b45309; --muted:#5e6470;
+  --shadow:0 20px 60px rgba(11,18,32,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC",sans-serif;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.top{border-bottom:1px solid var(--line);background:rgba(244,241,234,.86);backdrop-filter:blur(10px);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;letter-spacing:-.02em}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--teal-2);display:grid;place-items:center;font-weight:900;font-size:13px}
+nav{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--teal)}
+.hero{padding:78px 0 54px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-40% -10% auto auto;width:640px;height:640px;background:radial-gradient(circle at 30% 30%,rgba(94,234,212,.24),transparent 62%);pointer-events:none}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:800;margin:0 0 14px}
+h1{font-size:clamp(40px,7vw,76px);line-height:1.02;letter-spacing:-.055em;margin:0 0 22px;max-width:900px}
+h1 em{font-style:normal;color:var(--teal)}
+.lede{font-size:clamp(17px,2.2vw,22px);max-width:760px;color:#2a3340;margin:0 0 30px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 26px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:999px;border:1px solid var(--ink);text-decoration:none;font-weight:700;font-size:14px;background:var(--ink);color:var(--paper);transition:.18s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.alt{background:transparent;color:var(--ink)}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:7px 12px;border-radius:999px;background:rgba(15,118,110,.08);color:var(--teal);border:1px solid rgba(15,118,110,.22);font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px}
+.metric{background:#fffdf8;border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px}
+.metric b{display:block;font-size:26px;letter-spacing:-.03em;line-height:1.1}
+.metric span{display:block;font-size:12px;color:var(--muted);margin-top:6px}
+section{padding:64px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(26px,4vw,40px);line-height:1.1;letter-spacing:-.035em;margin:0 0 12px}
+.sub{color:var(--muted);max-width:760px;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:start}
+.panel{background:#fffdf8;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 8px 30px rgba(11,18,32,.04)}
+.flow{display:grid;gap:10px;counter-reset:step}
+.step{display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:start;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+.step:before{counter-increment:step;content:counter(step);width:38px;height:38px;border-radius:11px;background:var(--ink);color:var(--teal-2);display:grid;place-items:center;font-weight:900;font-size:13px}
+.step b{display:block;font-size:15px;margin-bottom:3px}
+.step p{margin:0;color:var(--muted);font-size:13px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.list li{padding:11px 13px;border-left:3px solid var(--teal);background:var(--paper);border-radius:0 10px 10px 0;font-size:14px}
+.list.warn li{border-left-color:var(--amber)}
+table{width:100%;border-collapse:collapse;background:#fffdf8;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--paper-2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em}
+.pill.ok{background:rgba(15,118,110,.10);color:var(--teal)}
+.pill.wait{background:rgba(180,83,9,.10);color:var(--amber)}
+.pill.no{background:rgba(94,100,112,.12);color:var(--muted)}
+.code{background:var(--ink);color:#e7e4dc;border-radius:16px;padding:18px;overflow:auto;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.code .g{color:var(--teal-2)}
+.small{font-size:12px;color:var(--muted)}
+.foot{padding:36px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.foot .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.skill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:var(--paper)}
+@media(max-width:800px){
+ .grid,.two,.metrics{grid-template-columns:1fr}
+ .hero{padding-top:52px}
+ nav{display:none}
+ section{padding:48px 0}
+ th,td{font-size:12px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark">XY</span> Xiaoyuan 14B</a>
+    <nav>
+      <a href="#system">System</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#competitions">Competitions</a>
+      <a href="agent-card.json">Agent card</a>
+      <a href="llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <p class="kicker">Local-first · safety-gated · 14B</p>
+      <h1>A 14B agent that <em>shows its gates.</em></h1>
+      <p class="lede">Xiaoyuan 14B is not a new foundation model. It is an agent architecture around a quantized 14B open-weight model: deterministic scenario routing, safety gates before generation, task constraint blocks, and output repair after it. Built for a 9&nbsp;GB, 4k-context, local-first world.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent">View repository ↗</a>
+        <a class="btn alt" href="agent-card.json">Open agent card ↗</a>
+        <a class="btn alt" href="https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/architecture.md">Read architecture ↗</a>
+      </div>
+      <span class="badge"><span class="dot"></span> Public project surface · live endpoint not claimed</span>
+      <div class="metrics" aria-label="Project metrics">
+        <div class="metric"><b>31/31</b><span>local turns completed</span></div>
+        <div class="metric"><b>45/45</b><span>automated regression tests</span></div>
+        <div class="metric"><b>89/100</b><span>local strict self-score*</span></div>
+        <div class="metric"><b>~9 GB</b><span>Q4_K_M local runtime</span></div>
+      </div>
+      <p class="small" style="margin:12px 0 0">*Local self-evaluation, not an official competition score or leaderboard rank.</p>
+    </div>
+  </section>
+
+  <section id="system">
+    <div class="wrap">
+      <h2>The failure path is the product.</h2>
+      <p class="sub">Most agent demos optimize for the happy path. This one makes the critical path deterministic: stop unsafe work before generation, put emergency action first, keep structured output structured, and repair missing fields before the user sees them.</p>
+      <div class="grid">
+        <div class="panel">
+          <div class="flow">
+            <div class="step"><div><b>Scenario router</b><p>Crisis, health, safety, tool, decision, multi-domain, self-review, general. Priority is explicit.</p></div></div>
+            <div class="step"><div><b>Deterministic gate</b><p>High-confidence cases short-circuit with zero model latency; the label is auditable.</p></div></div>
+            <div class="step"><div><b>Task constraint block</b><p>A compact, task-specific rule block instead of a generic constitution on every turn.</p></div></div>
+            <div class="step"><div><b>Local model call</b><p>Qwen2.5 14B Instruct, Q4_K_M, Ollama, 4k working context, no cloud dependency.</p></div></div>
+            <div class="step"><div><b>Output post-check</b><p>Repair missing emergency-first action, unsafe framing, format drift, and prompt echo.</p></div></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3 style="margin:0 0 14px;font-size:18px">What it refuses to hide</h3>
+          <ul class="list warn">
+            <li>It is an architecture around Qwen2.5 14B, not a new model.</li>
+            <li>It has no public always-on inference endpoint.</li>
+            <li>Local evidence is not an official benchmark run.</li>
+            <li>A human click-through of the production UI is still a release gate.</li>
+            <li>It does not replace a clinician, lawyer, emergency responder, or adviser.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="evidence">
+    <div class="wrap">
+      <h2>Evidence, with the limits attached.</h2>
+      <p class="sub">The project records local results because they are reproducible. It does not turn them into an official score.</p>
+      <table>
+        <thead><tr><th>Check</th><th>Result</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>Ten-task regression</td><td><span class="pill ok">10/10 · 31/31 turns</span></td><td>local Qwen2.5 14B, optimized mode</td></tr>
+          <tr><td>Automated regression</td><td><span class="pill ok">45/45 tests OK</span></td><td>routing, gates, post-check</td></tr>
+          <tr><td>Local strict self-score</td><td><span class="pill ok">89/100</span></td><td>local rubric; not official</td></tr>
+          <tr><td>Safety-critical items</td><td><span class="pill ok">Q4 / Q6 / Q10 passed</span></td><td>local safety rubric</td></tr>
+          <tr><td>Repeatability</td><td><span class="pill ok">3/3 same decision</span></td><td>deterministic gate path</td></tr>
+          <tr><td>Public live endpoint</td><td><span class="pill no">Not claimed</span></td><td>local-only deployment</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:12px">Full evidence note: <a href="https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/evidence.md">docs/evidence.md ↗</a></p>
+    </div>
+  </section>
+
+  <section id="competitions">
+    <div class="wrap">
+      <h2>Where it is being submitted.</h2>
+      <p class="sub">Only verified states are listed. “Prepared” is not “submitted”.</p>
+      <table>
+        <thead><tr><th>Target</th><th>Window</th><th>State</th><th>Fit</th></tr></thead>
+        <tbody>
+          <tr><td>Create AI Agents Championship · Dubai</td><td>Register by Jan 2027</td><td><span class="pill wait">Prepared · personal fields needed</span></td><td>Best Personal Agent</td></tr>
+          <tr><td>Open Agentic Web Challenge</td><td>2026-11-12 → 2027-01-11</td><td><span class="pill wait">Public surface ready · Devpost pending</span></td><td>Agent-readable project site</td></tr>
+          <tr><td>SEC Minimalist Edge AI Challenge 2026</td><td>Closed</td><td><span class="pill no">Results published</span></td><td>2026 not eligible; 2027 TBD</td></tr>
+          <tr><td>Kaggle Gemma 4 Developer Agent</td><td>2026-12-02</td><td><span class="pill no">Not eligible as-is</span></td><td>Requires Gemma 4 base</td></tr>
+          <tr><td>Neo4j Relate Hackathon</td><td>2026-12-11</td><td><span class="pill no">New work required</span></td><td>Relate memory graph branch</td></tr>
+          <tr><td>HackerRank Orchestrate</td><td>2026-12-12</td><td><span class="pill no">Live build only</span></td><td>Individual 24h event</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:12px">Full matrix: <a href="https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent/blob/main/docs/submission-matrix.md">docs/submission-matrix.md ↗</a></p>
+    </div>
+  </section>
+
+  <section id="machine">
+    <div class="wrap">
+      <h2>Machine-readable by design.</h2>
+      <p class="sub">Another agent should not have to scrape a marketing page to learn what this system does and where it stops. These files are the discovery surface.</p>
+      <div class="two">
+        <div class="panel">
+          <div class="code"><span class="g">GET</span> /agent-card.json
+<span class="g">GET</span> /llms.txt
+<span class="g">GET</span> /openapi.json
+
+<span class="g">agent</span> "Xiaoyuan 14B"
+<span class="g">protocol</span> "0.3.0"
+<span class="g">skills</span> routing, gates, constraints, post-check
+<span class="g">live_endpoint</span> false</div>
+        </div>
+        <div class="panel">
+          <h3 style="margin:0 0 10px;font-size:18px">Skills advertised in the card</h3>
+          <div class="skills" id="skills"><span class="skill">Loading agent card…</span></div>
+          <p class="small" style="margin-top:14px">The card is a discovery document, not a promise of a hosted model. A live A2A endpoint is a separate deployment step.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>© 2026 Xiaoyuan AGI · public project surface. Original docs/demo code under MIT; base model under its own license.</div>
+    <div><a href="https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent">GitHub</a> · <a href="agent-card.json">Agent card</a> · <a href="llms.txt">llms.txt</a></div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Xiaoyuan 14B","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, Linux, macOS","description":"A local-first, safety-gated agent architecture built around a quantized 14B open-weight model.","url":"https://1292215273loveseeker-dotcom.github.io/xiaoyuan-14b-agent/","codeRepository":"https://github.com/1292215273loveseeker-dotcom/xiaoyuan-14b-agent"}
+</script>
+<script>
+(async function(){
+  const el = document.getElementById('skills');
+  try{
+    const r = await fetch('agent-card.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const card = await r.json();
+    const skills = Array.isArray(card.skills) ? card.skills : [];
+    el.innerHTML = skills.map(s => '<span class="skill">'+(s.name||s.id||'skill')+'</span>').join('') || '<span class="skill">No skills advertised</span>';
+    if(card.name) document.title = card.name + ' — Local-First Safety-Gated Agent';
+  }catch(e){
+    el.innerHTML = '<span class="skill">Agent card unavailable in this preview</span>';
+  }
+})();
+</script>
+</body>
+</html>
